@@ -1,0 +1,8 @@
+int main(void){
+char *line = null;
+size_t n = 0;
+
+printf("Please enter a text: \n");
+
+
+}  
