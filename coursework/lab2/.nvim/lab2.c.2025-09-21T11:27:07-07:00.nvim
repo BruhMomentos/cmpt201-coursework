@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+#define max 1024
+
+int main() {
+  char input[max];
+
+  printf("Enter program to run. \n");
+
+  while (1) {
+    printf("> ");
+
+    // reads input
+    if (fgets(input, sizeof(input), stdin) == NULL) {
+      break;
+    }
+
+    input[strcspn(input, "\n")] = '\0';
+
+    if (strlen(input) == 0) {
+      continue;
+    }
+
+    pid_t pid = fork();
+    if (pid < 0) {
+      perror("fork");
+      continue;
+    }
+
+    if (pid == 0) {
+      execl(input, input, (char *)NULL);
+      perror("Failure");
+      exit(1);
+
+    } else {
+      int status;
+      waitpid(pid, &status, 0);
+    }
+  }
+}

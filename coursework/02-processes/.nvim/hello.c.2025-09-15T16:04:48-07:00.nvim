@@ -4,10 +4,7 @@
 
 int main() {
   fork();
-  pid_t pid = getpid();
-  ppid_p pipid = getppid();
-
-  printf("Start :PID=", pid_p, "parent PID=", ppid_p);
+  printf("Start :PID=", getpid() "parent PID=", getppid());
 
   /**
   printf("outside the loop");

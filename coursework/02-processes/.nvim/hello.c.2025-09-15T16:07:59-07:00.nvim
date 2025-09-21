@@ -3,10 +3,9 @@
 #include <unistd.h>
 
 int main() {
+  pid_p = getpid();
+  ppid_p = getppid();
   fork();
-  pid_t pid = getpid();
-  ppid_p pipid = getppid();
-
   printf("Start :PID=", pid_p, "parent PID=", ppid_p);
 
   /**
