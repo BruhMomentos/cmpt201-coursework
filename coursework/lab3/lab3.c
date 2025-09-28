@@ -1,0 +1,35 @@
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define N 5
+
+int main() {
+  char *hist[N] = {0}, *line = NULL;
+
+  size_t len = 0;
+  int i = 0, count = 0;
+
+  while (1) {
+
+    printf("Enter input");
+    if (getline(&line, &len, stdin) == -1)
+      break;
+    line[strcspn(line, "\n")] = 0;
+
+    if (hist[i])
+      free(hist[i]);
+    hist[i] = strdup(line);
+    i = (i + 1) % N;
+    if (count < N)
+      count++;
+
+    if (strcmp(line, "print") == 0) {
+      int start = (count == N) ? i : 0;
+      for (int j = 0; j < count; j++) {
+        printf("%s\n", hist[(start + j) % N]);
+      }
+    }
+  }
+}

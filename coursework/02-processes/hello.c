@@ -1,21 +1,3 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <unistd.h>
-
-int main() {
-  fork();
-  pid_t pid = getpid();
-  ppid_p pipid = getppid();
-
-  printf("Start :PID=", pid_p, "parent PID=", ppid_p);
-
-  /**
-  printf("outside the loop");
-  fork();
-  for (int i = 0; i < 10; i++) {
-    sleep(1);
-    printf("i \n");
-  }
-  fork();
-  **/
-}
+a.out
+hello
+hello.c
