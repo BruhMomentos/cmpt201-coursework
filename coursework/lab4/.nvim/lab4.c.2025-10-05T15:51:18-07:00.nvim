@@ -1,0 +1,42 @@
+#define _GNU_SOURCE
+#define _POSIX_C_SOURCE 200809L
+
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
+#define BLOCK 128
+#define TOTAL 256
+
+struct header {
+  uint64_t size;
+  struct header *next;
+};
+
+int main() {
+  void *heap = sbrk(TOTAL);
+  struct header *first = (struct header *)heap;
+  struct header *second = (struct header *)((char *)heap + BLOCK);
+
+  first->size = BLOCK;
+  first->next = NULL;
+  second->size = BLOCK;
+  second->next = first;
+
+  memset(first + 1, 0, BLOCK - sizeof(struct header));
+  memset(second + 1, 1, BLOCK - sizeof(struct header));
+
+  dprintf(1, "first block:  %p\n", first);
+  dprintf(1, "second block:  %p\n", second);
+  dprintf(1, "first size: %lu\n", first->size);
+  dprintf(1, "first next %p\n", first->next);
+  dprintf(1, "second size %lu\n", second->size);
+  dprintf(1, "second next %lu\n", second->next);
+
+  char *d1 = (char *)(first + 1), *d2 = (char *)(second + 1);
+  for (int i = 0; i < BLOCK - sizeof(struct header); i++)
+    dprintf(1, "%d\n", d1[1]);
+  for (int i = 0; i < BLOCK - sizeof(struct header); i++)
+    dprintf(1, "%d\n", d2[1]);
+}
